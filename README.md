@@ -1,2 +1,0 @@
-# Bodenrichtwert24
-
