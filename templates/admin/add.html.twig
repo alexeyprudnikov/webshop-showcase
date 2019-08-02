@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Pierrelang.ru
+{% endblock %}
+
+{% block stylesheets %}
+
+{% endblock %}
+
+{% block body %}
+    <form name="createForm" action="{{ path('insert_item') }}">
+        <div class="itemContainer">
+            Image: <input type="file" name="file" accept="image/*"><br>
+            Title: <input type="text" name="title" value=""><br>
+            Number: <input type="text" name="number" value=""><br>
+            Price: <input type="text" name="price" value=""><br>
+            Category: <select name="category">
+                <option value="">please select</option>
+                <option value="1">Anhänger</option>
+                <option value="2">Armbänder</option>
+            </select>
+        </div>
+        <button type="button" class="btn_Create">save</button>
+        <button type="button" class="btn_Cancel">cancel</button>
+    </form>
+{% endblock %}
+
+{%  block javascripts %}
+    <script type="text/javascript" src="{{ asset('assets/js/jquery.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/js/actions.js') }}"></script>
+{% endblock %}

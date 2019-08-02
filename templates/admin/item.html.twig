@@ -1,0 +1,9 @@
+<img src="{{ asset('images/' ~ item.filename) }}" alt="" width="100" height="100" /><br>
+Title: <input type="text" name="title" value="{{ item.title }}"><br>
+Number: <input type="text" name="number" value="{{ item.number }}"><br>
+Price: <input type="text" name="price" value="{{ item.price }}"><br>
+Category: <select name="category">
+    <option value="">please select</option>
+    <option value="1"{% if (item.category) == 1 %} selected="selected"{% endif %}>Anhänger</option>
+    <option value="2"{% if (item.category) == 2 %} selected="selected"{% endif %}>Armbänder</option>
+</select>

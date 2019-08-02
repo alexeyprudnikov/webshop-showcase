@@ -78,9 +78,6 @@
     "doctrine/reflection": {
         "version": "v1.0.0"
     },
-    "guzzlehttp/guzzle": {
-        "version": "6.3.3"
-    },
     "guzzlehttp/promises": {
         "version": "v1.3.1"
     },
@@ -105,17 +102,14 @@
     "psr/container": {
         "version": "1.0.0"
     },
-    "psr/http-message": {
-        "version": "1.0.1"
-    },
     "psr/log": {
         "version": "1.1.0"
     },
     "psr/simple-cache": {
         "version": "1.0.1"
     },
-    "ralouphie/getallheaders": {
-        "version": "2.0.5"
+    "rakibtg/sleekdb": {
+        "version": "1.0.3"
     },
     "sensio/framework-extra-bundle": {
         "version": "5.2",
@@ -128,6 +122,9 @@
         "files": [
             "config/packages/sensio_framework_extra.yaml"
         ]
+    },
+    "symfony/asset": {
+        "version": "v4.2.11"
     },
     "symfony/cache": {
         "version": "v4.2.3"
