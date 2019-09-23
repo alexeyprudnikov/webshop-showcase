@@ -37,14 +37,24 @@
                             </figure>
 
                             <div class="entry-content flex flex-column align-items-center justify-content-center">
-                                <h3><a href="{{ path('show_item', { 'hash': item.hash }) }}">{{ item.title }}</a></h3>
+                                <h3>{{ item.title }}</h3>
 
                                 <ul class="justify-content-center">
                                     <li class="price">&euro;{{ item.price }}</li>
                                     {% if (item.isnew) == 1 %}
                                         <li class="new">New</li>
                                     {% endif %}
-                                    <li><br><button type="button" class="btn btn-outline-secondary"><i class="fa fa-search"></i></button> <button type="button" class="btn btn-outline-secondary"><i class="fa fa-heart"></i></button></li>
+                                    <li>
+                                        <div class="pt-4">
+                                            <button type="button"
+                                                    class="item-action"
+                                                    data-toggle="modal"
+                                                    data-target="#infoModal"
+                                                    data-item-id="{{ item._id }}"
+                                                    data-item-title="{{ item.title }}"
+                                                    data-item-url="{{ path('show_item', { 'hash': item.hash }) }}"><i class="fa fa-search"></i></button> <button type="button" class="item-action" data-action-url="{{ path('show_item', { 'hash': item.hash }) }}"><i class="fa fa-star"></i></button>
+                                        </div>
+                                    </li>
                                 </ul>
                             </div><!-- .entry-content -->
                         </div><!-- .portfolio-content -->
@@ -58,6 +68,20 @@
             </div><!-- .scroll-down -->
         </div><!-- .container -->
     </div><!-- .outer-container -->
+
+    <div class="modal fade" id="infoModal" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="infoModalLabel">Item</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body"></div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
 {%  block javascripts %}

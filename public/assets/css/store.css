@@ -395,6 +395,60 @@ a:hover, a:active {
     opacity: 1;
 }
 
+button.item-action {
+    display: inline-block;
+    padding: 8px 15px;
+    margin-right: 10px;
+    border: 1px solid #d2d2d4;
+    border-radius: 2px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    line-height: 1;
+    color: #404040;
+    text-transform: uppercase;
+    text-decoration: none;
+    letter-spacing: 1px;
+    transition: all 0.35s;
+}
+
+button.item-action:hover {
+    border-color: transparent;
+    color: #fff;
+    background: #f0437e;
+}
+
+.spinner-box {
+    display: block;
+    text-align: center;
+    font-size: 0;
+    line-height: 0;
+}
+
+.spinner-wrapper {
+    display: inline-block;
+    width: 27px;
+    height: 27px;
+}
+
+.spinner {
+    display: block;
+    width: 25px;
+    height: 25px;
+    margin: 1px;
+    border-radius: 50%;
+    border: 3px solid #f0437e;
+    border-color: #f0437e transparent #f0437e transparent;
+    animation: spinner 1.2s linear infinite;
+}
+@keyframes spinner {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
 .portfolio-content h3 {
     margin: 0 10px 0 10px;
     font-family: 'Poppins', sans-serif;
@@ -515,17 +569,17 @@ a:hover, a:active {
     color: #595959;
 }
 
+.single-portfolio .content-area .entry-content .item-price {
+    color: royalblue;
+    font-size: 2rem;
+    font-weight: 500;
+}
+
 /*
 # Post Share
 --------------------------------*/
 .single-portfolio .post-share {
     margin-top: 32px;
-}
-
-.single-portfolio .post-share label {
-    margin-right: 32px;
-    text-transform: capitalize;
-    font-family: 'Poppins', sans-serif;
 }
 
 .single-portfolio .post-share ul {
@@ -535,12 +589,12 @@ a:hover, a:active {
 }
 
 .single-portfolio .post-share ul li {
-    width: 48px;
-    height: 48px;
+    width: 24px;
+    height: 24px;
     margin-right: 10px;
     margin-bottom: 10px;
     border-radius: 50%;
-    font-size: 18px;
+    font-size: 14px;
     line-height: 1;
     color: #fff;
 }
@@ -559,10 +613,6 @@ a:hover, a:active {
     background: #4b6cd0;
 }
 
-.single-portfolio .post-share ul li.gp {
-    background: #f03b3b;
-}
-
 .single-portfolio .post-share ul li.in {
     background: #bb8950;
 }
@@ -571,6 +621,13 @@ a:hover, a:active {
     background: #49a7f3;
 }
 
+.single-portfolio .post-share ul li.vk {
+    background: #4a76a8;
+}
+
+.single-portfolio .post-share ul li.ok {
+    background: #f18204;
+}
 /*
 # Post Sidebar
 --------------------------------*/

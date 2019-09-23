@@ -1,43 +1,58 @@
-{% extends 'base.html.twig' %}
+<div class="container single-portfolio pt-0 pb-1">
+    <div class="row">
+        <div class="col-12 col-lg-8">
+            <div class="featured-img">
+                <figure>
+                    <img src="{{ asset('images/items/' ~ item.filename) }}" class="img-fluid" alt="{{ item.title }}">
+                </figure>
+            </div><!-- .content-area -->
+        </div><!-- .col-12 -->
 
-{% block title %}
-    Pierrelang.ru
-{% endblock %}
+        <div class="col-12 col-lg-4">
+            <div class="content-area">
 
-{% block stylesheets %}
-    <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}">
-{% endblock %}
+                <div class="entry-meta">
+                    <div class="posted-tags">
+                        <label>Номер продукта</label>
+                        <span>{{ item.number }}</span>
+                    </div>
+                    <div class="post-category">
+                        <label>Категория</label>
+                        <span><a href="#">Photography</a></span>
+                    </div>
+                </div><!-- .entry-meta -->
 
-{% block body %}
-    <header id="header" class="preview">
-        <div class="inner">
-            <a href="/" class="button hidden"><span>Let's Go</span></a>
-        </div>
-    </header>
+                <div class="entry-content">
+                    <p class="item-price">&euro;{{ item.price }}</p>
+                    <button type="button" class="item-action" data-action-url="{{ path('show_item', { 'hash': item.hash }) }}"><i class="fa fa-star"></i> в избранное</button>
+                </div><!-- .entry-content -->
 
-    <div id="preview" class="vertical">
-        <div class="inner">
-            <div class="image fit">
-                <img src="{{ asset('images/' ~ item.filename) }}" alt="{{ item.title }}" width="300">
-            </div>
-            <div class="content">
-                <header>
-                    <h2>{{ item.title }}</h2>
-                </header>
-                <p>Art.Nr.: {{ item.number }}</p>
-                <p>Preis: {{ item.price }} &euro;</p>
-            </div>
-        </div>
-        <a href="detail1.html" class="nav previous"><span class="fa fa-chevron-left"></span></a>
-        <a href="detail2.html" class="nav next"><span class="fa fa-chevron-right"></span></a>
-    </div>
+                <div class="post-share">
+                    <div class="label">Поделиться:</div>
+                    <div class="flex align-items-center">
+                        <ul class="flex align-items-center">
+                            <li class="fb"><a href="#"><i class="fa fa-facebook"></i></a></li>
+                            <li class="in"><a href="#"><i class="fa fa-instagram"></i></a></li>
+                            <li class="tw"><a href="#"><i class="fa fa-twitter"></i></a></li>
+                            <li class="vk"><a href="#"><i class="fa fa-vk"></i></a></li>
+                            <li class="ok"><a href="#"><i class="fa fa-odnoklassniki"></i></a></li>
+                        </ul>
+                    </div>
+                </div><!-- .post-share -->
 
-    {{ include('store/footer.html.twig') }}
-{% endblock %}
+            </div><!-- .content-area -->
+        </div><!-- .col-12 -->
+    </div><!-- .row -->
 
-{%  block javascripts %}
-<script type="text/javascript" src="{{ asset('assets/js/jquery.min.js') }}"></script>
-<script type="text/javascript" src="{{ asset('assets/js/skel.min.js') }}"></script>
-<script type="text/javascript" src="{{ asset('assets/js/util.js') }}"></script>
-<script type="text/javascript" src="{{ asset('assets/js/main.js') }}"></script>
-{% endblock %}
+    <div class="row">
+        <div class="col">
+            <nav class="post-nav">
+                <ul class="flex justify-content-between align-items-center">
+                    <li><a href="#"><img src="{{ asset('images/angle-left.png') }}" alt="Previous"></a></li>
+                    <li><a href="#"><img src="{{ asset('images/portfolio-icon.png') }}" alt="Back to Portfolio"></a></li>
+                    <li><a href="#"><img src="{{ asset('images/angle-right.png') }}" alt="Next"></a></li>
+                </ul>
+            </nav><!-- .post-nav -->
+        </div><!-- .col -->
+    </div><!-- .row -->
+</div><!-- .container -->
