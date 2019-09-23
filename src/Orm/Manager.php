@@ -42,4 +42,14 @@ class Manager
     {
         return $this->storage->insert($data);
     }
+
+    /**
+     * @param int $id
+     * @param array $data
+     * @throws \Exception
+     */
+    public function delete(int $id): void
+    {
+        $this->storage->where('_id', '=', $id)->delete();
+    }
 }

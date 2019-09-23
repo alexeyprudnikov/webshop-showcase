@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Pierrelang.ru Admin
+{% endblock %}
+
+{% block stylesheets %}
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+{% endblock %}
+
+{% block body %}
+    <div class="row m-0">
+        <div class="col p-4">
+            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#showCreateModal"><i class="fa fa-plus-circle"></i> Add new</button>
+            <button type="button" class="btn btn-secondary btn_SignOut"><i class="fa fa-sign-out"></i> Sign out</button>
+            <span id="infoText" class="ml-2"></span>
+        </div>
+        <div class="col p-4">
+            <input type="text" class="form-control" id="Search" name="search" value="" placeholder="Search">
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="showCreateModal" tabindex="-1" role="dialog" aria-labelledby="showCreateModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="showCreateModalLabel">Add new product</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    {{ include('admin/add.html.twig') }}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary btn_Create">Save</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <table class="table table-hover" id="tbl_List">
+        <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Image</th>
+            <th scope="col">Title</th>
+            <th scope="col">Art. Nr.</th>
+            <th scope="col">Price</th>
+            <th scope="col">Cat.</th>
+            <th scope="col">Is new?</th>
+            <th scope="col">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in items %}
+            <tr id="itemContainer_{{ item._id }}" class="itemContainer" data-search="{{ item.title }} {{ item.number }}">
+                {{ include('admin/item.html.twig', { 'item': item }) }}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
+
+{%  block javascripts %}
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="{{ asset('assets/js/admin.js') }}"></script>
+{% endblock %}

@@ -5,58 +5,63 @@
 {% endblock %}
 
 {% block stylesheets %}
-    <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link href="{{ asset('assets/css/store.css') }}" rel="stylesheet">
 {% endblock %}
 
 {% block body %}
-    <header id="header">
-        <div class="inner">
-            <div class="content">
-                <h1>Radius</h1>
-                <h2>A fully responsive masonry-style<br />
-                    portfolio template.</h2>
-                <a href="#" class="button big alt"><span>Let's Go</span></a>
-            </div>
-            <a href="#" class="button hidden"><span>Let's Go</span></a>
-        </div>
-    </header>
+    {{ include('store/header.html.twig') }}
 
-    <div id="main">
-        <div class="inner">
-            <div class="columns" id="loaderContainer">
+    {{ include('store/nav.html.twig') }}
+
+    <div class="nav-bar-sep d-lg-none"></div>
+
+    <div class="outer-container">
+        <div class="container portfolio-page">
+            <div class="row">
+                <div class="col">
+                    <ul class="breadcrumbs flex align-items-center">
+                        <li><a href="#">Home</a></li>
+                        <li>Kollektion</li>
+                    </ul><!-- .breadcrumbs -->
+                </div><!-- .col -->
+            </div><!-- .row -->
+
+            <div class="row">
                 {% for item in items %}
-                    <div class="image fit">
-                        <a href="{{ path('show_item', { 'hash': item.hash }) }}"><img src="{{ asset('images/' ~ item.filename) }}" alt="" /></a>
-                    </div>
-                {% endfor %}
-            </div>
-        </div>
-    </div>
+                    <div class="col-12 col-md-6 col-lg-3">
+                        <div class="portfolio-content">
+                            <figure>
+                                <img src="{{ asset('images/items/' ~ item.filename) }}" alt="{{ item.title }}">
+                            </figure>
 
-    <footer id="footer">
-        <a href="#" class="info fa fa-info-circle"><span>About</span></a>
-        <div class="inner">
-            <div class="content">
-                <h3>Vestibulum hendrerit tortor id gravida</h3>
-                <p>In tempor porttitor nisl non elementum. Nulla ipsum ipsum, feugiat vitae vehicula vitae, imperdiet sed risus. Fusce sed dictum neque, id auctor felis. Praesent luctus sagittis viverra. Nulla erat nibh, fermentum quis enim ac, ultrices euismod augue. Proin ligula nibh, pretium at enim eget, tempor feugiat nulla.</p>
-            </div>
-            <div class="copyright">
-                <h3>Follow me</h3>
-                <ul class="icons">
-                    <li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
-                    <li><a href="#" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
-                    <li><a href="#" class="icon fa-instagram"><span class="label">Instagram</span></a></li>
-                    <li><a href="#" class="icon fa-dribbble"><span class="label">Dribbble</span></a></li>
-                </ul>
-                Pierrelang.ru &copy; 2019
-            </div>
-        </div>
-    </footer>
+                            <div class="entry-content flex flex-column align-items-center justify-content-center">
+                                <h3><a href="{{ path('show_item', { 'hash': item.hash }) }}">{{ item.title }}</a></h3>
+
+                                <ul class="justify-content-center">
+                                    <li class="price">&euro;{{ item.price }}</li>
+                                    {% if (item.isnew) == 1 %}
+                                        <li class="new">New</li>
+                                    {% endif %}
+                                    <li><br><button type="button" class="btn btn-outline-secondary"><i class="fa fa-search"></i></button> <button type="button" class="btn btn-outline-secondary"><i class="fa fa-heart"></i></button></li>
+                                </ul>
+                            </div><!-- .entry-content -->
+                        </div><!-- .portfolio-content -->
+                    </div><!-- .col -->
+                {% endfor %}
+            </div><!-- .row -->
+
+            <div class="scroll-down flex flex-column justify-content-center align-items-center d-none d-lg-block">
+                <span class="arrow-down flex justify-content-center align-items-center"><img src="{{ asset('images/arrow-down.png') }}" alt="arrow"></span>
+                <span class="scroll-text">Scroll Down</span>
+            </div><!-- .scroll-down -->
+        </div><!-- .container -->
+    </div><!-- .outer-container -->
 {% endblock %}
 
 {%  block javascripts %}
-    <script type="text/javascript" src="{{ asset('assets/js/jquery.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('assets/js/skel.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('assets/js/util.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('assets/js/main.js') }}"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="{{ asset('assets/js/store.js') }}"></script>
 {% endblock %}

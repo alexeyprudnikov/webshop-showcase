@@ -28,15 +28,17 @@ class Finder
     /**
      * @param int $offset
      * @param int $limit
+     * @param string $orderBy
      * @return array|mixed|null
      * @throws \Exception
      */
-    public function findAll(int $offset = 0, $limit = self::ItemsPerPage)
+    public function findAll(int $offset = 0, $limit = self::ItemsPerPage, $orderBy = 'desc:_id')
     {
+        [$order, $ordBy] = explode(':', $orderBy);
         return $this->storage
             ->skip($offset)
             ->limit($limit)
-            ->orderBy( 'asc', 'sort' )
+            ->orderBy( $order, $ordBy )
             ->fetch();
     }
 

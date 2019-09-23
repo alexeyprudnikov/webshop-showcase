@@ -17,6 +17,9 @@ use Symfony\Component\HttpFoundation\Request;
 use SleekDB\SleekDB;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Routing\RouterInterface;
 
 class AdminController extends AbstractController
 {
@@ -26,7 +29,9 @@ class AdminController extends AbstractController
 
     protected $dataDir = __DIR__.'/../../var/db';
 
-    protected $imgDir = 'images';
+    protected $imgDir = 'images/items';
+
+    protected $secretKey = 'znamenka';
 
     /**
      * AdminController constructor.
@@ -43,18 +48,58 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @Route("/admin", name="admin")
+     * @Route("/admin/login", name="login")
+     * @param Request $request
+     * @return Response
+     */
+    public function login(Request $request): Response
+    {
+        if ($this->get('session')->get('authenticated') === true) {
+            return $this->redirectToRoute('list');
+        }
+        $error = '';
+        $secret = $request->get('secret');
+        if (md5($secret) === md5($this->secretKey)) {
+            $this->get('session')->set('authenticated', true);
+            return $this->redirectToRoute('list');
+        }
+        if ($secret !== null) {
+            $error = 'Error: wrong secret key!';
+        }
+        return $this->render('admin/login.html.twig',
+            [
+                'error' => $error
+            ]
+            );
+    }
+
+    /**
+     * @Route("/admin/logout", name="logout")
+     * @return RedirectResponse
+     */
+    public function logout(): RedirectResponse
+    {
+        $this->get('session')->remove('authenticated');
+        return $this->redirectToRoute('login');
+    }
+
+    /**
+     * @Route("/admin", name="list")
      * @return Response
      * @throws \Exception
      */
     public function list(): Response
     {
+        if ($this->get('session')->get('authenticated') !== true) {
+            return $this->redirectToRoute('login');
+        }
+
         $args = [];
 
         $items = $this->finder->findAll();
         $args['items'] = $items;
 
-        return $this->render('admin/index.html.twig', $args);
+        return $this->render('admin/list.html.twig', $args);
     }
 
     /**
@@ -66,35 +111,36 @@ class AdminController extends AbstractController
     public function update(Request $request): Response
     {
         $id = $request->get('id');
+        $file = $request->files->get('file');
         $title = $request->get('title');
         $number = $request->get('number');
         $price = $request->get('price');
 
         if(empty($id) || empty($title) || empty($number) || empty($price)) {
-            throw new \UnexpectedValueException('Data not complete');
+            return new Response('Data not complete', 422);
         }
+
         $update = [
             'title' => $title,
             'number' => $number,
             'price' => $price,
             'category' => $request->get('category'),
-            #'sort' => 1
+            'isnew' => $request->get('isnew') === '1' ? 1 : 0
         ];
+
+        if(!empty($file)) {
+            $update['filename'] = $this->uploadFile($file);
+            // find old filename
+            $item = $this->finder->findById($id);
+            // delete old image
+            $this->deleteImage($item['filename']);
+        }
 
         $this->manager->update($id, $update);
 
         // refind and return rendered template
         $item = $this->finder->findById($id);
         return $this->render('admin/item.html.twig', ['item' => $item]);
-    }
-
-    /**
-     * @Route("/admin/item/create", name="create_item")
-     * @return Response
-     */
-    public function create(): Response
-    {
-        return $this->render('admin/add.html.twig');
     }
 
     /**
@@ -111,25 +157,54 @@ class AdminController extends AbstractController
         $price = $request->get('price');
 
         if(empty($file) || empty($title) || empty($number) || empty($price)) {
-            throw new \UnexpectedValueException('Data not complete');
+            return new Response('Data not complete', 422);
         }
-
-        $filename = $this->uploadFile($file);
-        $count = $this->finder->count();
         
         $insert = [
-            'filename' => $filename,
+            'filename' => $this->uploadFile($file),
             'hash' => $this->getUniqueHash(),
             'title' => $title,
             'number' => $number,
             'price' => $price,
             'category' => $request->get('category'),
-            'sort' => $count+1
+            'isnew' => $request->get('isnew') === '1' ? 1 : 0
         ];
 
         $item = $this->manager->insert($insert);
 
         return new Response(json_encode($item));
+    }
+
+    /**
+     * @Route("/admin/item/delete", name="delete_item", methods={"POST"})
+     * @param Request $request
+     * @return Response
+     * @throws \Exception
+     */
+    public function delete(Request $request): Response
+    {
+        $id = $request->get('id');
+
+        if(empty($id)) {
+            throw new \UnexpectedValueException('Data not complete');
+        }
+
+        $item = $this->finder->findById($id);
+
+        $this->manager->delete($id);
+
+        // delete image
+        $this->deleteImage($item['filename']);
+
+        return new Response();
+    }
+
+    /**
+     * @param string $filename
+     */
+    protected function deleteImage(string $filename): void
+    {
+        unlink($this->imgDir . DIRECTORY_SEPARATOR . $filename);
     }
 
     /**
