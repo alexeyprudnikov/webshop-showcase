@@ -22,8 +22,12 @@
             <div class="row">
                 <div class="col-8">
                     <ul class="breadcrumbs flex align-items-center">
-                        <li><a href="#">Home</a></li>
-                        <li>Kollektion</li>
+                        {% if (catId) == 0 %}
+                            <li>Коллекция</li>
+                        {% else %}
+                            <li><a href="{{ path('start') }}">Коллекция</a></li>
+                            <li>{{ categories[catId] }}</li>
+                        {% endif %}
                     </ul><!-- .breadcrumbs -->
                 </div><!-- .col -->
                 <div class="col-4">
@@ -36,6 +40,32 @@
                     </div>
                 </div>
             </div><!-- .row -->
+
+            <div class="row pb-3">
+                <div class="col-12 flex">
+                    <div class="dropdown">
+                        <button class="btn btn-light btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Категории
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            {% for key,value in categories %}
+                                <a class="dropdown-item" href="{{ path('show_category', { 'id': key }) }}">{{ value }}</a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="dropdown pl-2">
+                        <button class="btn btn-light btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Сортировка
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="#">Стандартная</a>
+                            <a class="dropdown-item" href="#">Новинки</a>
+                            <a class="dropdown-item" href="#">Дешевые</a>
+                            <a class="dropdown-item" href="#">Дорогие</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <div class="row">
                 {% for item in items %}

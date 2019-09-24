@@ -54,6 +54,16 @@ class Finder
     }
 
     /**
+     * @param int $id
+     * @return array|mixed|null
+     * @throws \Exception
+     */
+    public function findByCategoryId(int $id)
+    {
+        return $this->storage->where('category', '=', $id)->fetch();
+    }
+
+    /**
      * @param string $hash
      * @return array|mixed|null
      * @throws \Exception

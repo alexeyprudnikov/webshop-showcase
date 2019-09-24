@@ -510,14 +510,14 @@ button.item-action:hover, button.item-action-active {
 .breadcrumbs {
     padding: 48px 0;
     margin: 0;
-    color: #a6a6a6;
+    color: #191919;
     list-style: none;
     font-family: 'Poppins', sans-serif;
 }
 
 .breadcrumbs li {
     position: relative;
-    color: #a6a6a6;
+    color: #191919;
     padding: 0 12px;
 }
 
@@ -539,8 +539,13 @@ button.item-action:hover, button.item-action-active {
 }
 
 .breadcrumbs li a {
-    color: #191919;
+    color: #a6a6a6;
     text-decoration: none;
+    transition: all 0.35s;
+}
+
+.breadcrumbs li a:hover {
+    color: #f0437e;
 }
 
 /*--------------------------------------------------------------
@@ -1171,4 +1176,14 @@ button.item-action:hover, button.item-action-active {
     position: absolute;
     top: 39px;
     right: -9px;
+}
+
+.dropdown-menu a {
+    color: #a6a6a6;
+    text-decoration: none;
+    transition: all 0.35s;
+}
+
+.dropdown-menu a.active, .dropdown-menu a:hover {
+    color: #f0437e;
 }

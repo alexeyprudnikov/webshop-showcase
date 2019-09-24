@@ -23,6 +23,12 @@ class StoreController extends AbstractController
 
     protected $dataDir = __DIR__.'/../../var/db';
 
+    public static $categories = [
+        1 => 'Кольца',
+        2 => 'Браслеты',
+        3 => 'Серьги'
+    ];
+
     /**
      * StoreController constructor.
      */
@@ -46,7 +52,20 @@ class StoreController extends AbstractController
     {
         $items = $this->finder->findAll();
 
-        return $this->render('store/index.html.twig', ['items' => $items]);
+        return $this->render('store/index.html.twig', ['items' => $items, 'categories' => self::$categories, 'catId' => 0]);
+    }
+
+    /**
+     * @Route("/c/{id}", name="show_category")
+     * @param int $id
+     * @return Response
+     * @throws \Exception
+     */
+    public function showCategory(int $id): Response
+    {
+        $items = $this->finder->findByCategoryId($id);
+
+        return $this->render('store/index.html.twig', ['items' => $items, 'categories' => self::$categories, 'catId' => $id]);
     }
 
     /**
