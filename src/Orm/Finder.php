@@ -12,9 +12,14 @@ use SleekDB\SleekDB;
 
 class Finder
 {
-    protected CONST ItemsPerPage = 16;
 
     protected $storage;
+
+    protected $offset = 0;
+
+    protected $limit = 40;
+
+    protected $orderBy = 'desc:_id';
 
     /**
      * Finder constructor.
@@ -27,18 +32,58 @@ class Finder
 
     /**
      * @param int $offset
+     */
+    public function setOffset(int $offset): void
+    {
+        $this->offset = $offset;
+    }
+
+    /**
+     * @param int $limit
+     */
+    public function setLimit(int $limit): void
+    {
+        $this->limit = $limit;
+    }
+
+    /**
+     * @param string $orderBy
+     */
+    public function setOrderBy(string $orderBy): void
+    {
+        $this->orderBy = $orderBy;
+    }
+
+    /**
+     * @param int $offset
      * @param int $limit
      * @param string $orderBy
      * @return array|mixed|null
      * @throws \Exception
      */
-    public function findAll(int $offset = 0, $limit = self::ItemsPerPage, $orderBy = 'desc:_id')
+    public function findAll()
     {
-        [$order, $ordBy] = explode(':', $orderBy);
+        [$order, $ordBy] = explode(':', $this->orderBy);
         return $this->storage
-            ->skip($offset)
-            ->limit($limit)
-            ->orderBy( $order, $ordBy )
+            ->skip($this->offset)
+            ->limit($this->limit)
+            ->orderBy($order, $ordBy)
+            ->fetch();
+    }
+
+    /**
+     * @param int $id
+     * @return array|mixed|null
+     * @throws \Exception
+     */
+    public function findByCategoryId(int $id)
+    {
+        [$order, $ordBy] = explode(':', $this->orderBy);
+        return $this->storage
+            ->where('category', '=', $id)
+            ->skip($this->offset)
+            ->limit($this->limit)
+            ->orderBy($order, $ordBy)
             ->fetch();
     }
 
@@ -51,16 +96,6 @@ class Finder
     {
         $response = $this->storage->where('_id', '=', $id)->fetch();
         return count($response) > 0 ? $response[0] : null;
-    }
-
-    /**
-     * @param int $id
-     * @return array|mixed|null
-     * @throws \Exception
-     */
-    public function findByCategoryId(int $id)
-    {
-        return $this->storage->where('category', '=', $id)->fetch();
     }
 
     /**

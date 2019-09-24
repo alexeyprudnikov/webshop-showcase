@@ -29,6 +29,13 @@ class StoreController extends AbstractController
         3 => 'Серьги'
     ];
 
+    public static $sorting = [
+        1 => ['title' => 'Стандартная', 'orderby' => 'desc:_id'],
+        2 => ['title' => 'Новинки', 'orderby' => 'desc:isnew'],
+        3 => ['title' => 'Дешевые', 'orderby' => 'asc:price'],
+        4 => ['title' => 'Дорогие', 'orderby' => 'desc:price']
+    ];
+
     /**
      * StoreController constructor.
      */
@@ -37,7 +44,6 @@ class StoreController extends AbstractController
         try {
             $storage = SleekDB::store('items', $this->dataDir);
             $this->finder = new Finder($storage);
-            #$this->insertTestData();
         } catch (\Exception $e) {
             throw new NotFoundHttpException($e->getMessage());
         }
@@ -45,27 +51,35 @@ class StoreController extends AbstractController
 
     /**
      * @Route("/", name="start")
+     * @param Request $request
      * @return Response
      * @throws \Exception
      */
-    public function start(): Response
+    public function start(Request $request): Response
     {
+        $orderby = $this->getOrderBy($request->get('orderby', 1));
+
+        $this->finder->setOrderBy($orderby);
         $items = $this->finder->findAll();
 
-        return $this->render('store/index.html.twig', ['items' => $items, 'categories' => self::$categories, 'catId' => 0]);
+        return $this->render('store/index.html.twig', ['items' => $items, 'categories' => self::$categories, 'sorting' => self::$sorting, 'catId' => 0]);
     }
 
     /**
      * @Route("/c/{id}", name="show_category")
      * @param int $id
+     * @param Request $request
      * @return Response
      * @throws \Exception
      */
-    public function showCategory(int $id): Response
+    public function showCategory(int $id, Request $request): Response
     {
+        $orderby = $this->getOrderBy($request->get('orderby', 1));
+
+        $this->finder->setOrderBy($orderby);
         $items = $this->finder->findByCategoryId($id);
 
-        return $this->render('store/index.html.twig', ['items' => $items, 'categories' => self::$categories, 'catId' => $id]);
+        return $this->render('store/index.html.twig', ['items' => $items, 'categories' => self::$categories, 'sorting' => self::$sorting, 'catId' => $id]);
     }
 
     /**
@@ -79,5 +93,14 @@ class StoreController extends AbstractController
         $item = $this->finder->findByHash($hash);
 
         return $this->render('store/item.html.twig', ['item' => $item]);
+    }
+
+    /**
+     * @param int $id
+     * @return string
+     */
+    protected function getOrderBy(int $id): string
+    {
+       return array_key_exists($id, self::$sorting) ? self::$sorting[$id]['orderby']: 'desc:_id';
     }
 }

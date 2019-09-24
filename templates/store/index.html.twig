@@ -48,8 +48,8 @@
                             Категории
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            {% for key,value in categories %}
-                                <a class="dropdown-item" href="{{ path('show_category', { 'id': key }) }}">{{ value }}</a>
+                            {% for id,title in categories %}
+                                <a class="dropdown-item" href="{{ path('show_category', { 'id': id }) }}">{{ title }}</a>
                             {% endfor %}
                         </div>
                     </div>
@@ -58,10 +58,9 @@
                             Сортировка
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" href="#">Стандартная</a>
-                            <a class="dropdown-item" href="#">Новинки</a>
-                            <a class="dropdown-item" href="#">Дешевые</a>
-                            <a class="dropdown-item" href="#">Дорогие</a>
+                            {% for id,data in sorting %}
+                                <a class="dropdown-item" href="?orderby={{ id }}">{{ data['title'] }}</a>
+                            {% endfor %}
                         </div>
                     </div>
                 </div>
