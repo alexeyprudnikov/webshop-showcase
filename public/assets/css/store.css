@@ -398,7 +398,6 @@ a:hover, a:active {
 button.item-action {
     display: inline-block;
     padding: 8px 15px;
-    margin-right: 10px;
     border: 1px solid #d2d2d4;
     border-radius: 2px;
     font-size: 0.75rem;
@@ -1161,4 +1160,15 @@ button.item-action:hover, button.item-action-active {
 
 .single-page .entry-header .byline .date-format a {
     color: #bfbfbf;
+}
+
+.wishList {
+    padding-top: 48px;
+    position: relative;
+}
+
+.wishList .badge {
+    position: absolute;
+    top: 39px;
+    right: -9px;
 }

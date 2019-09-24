@@ -4,8 +4,6 @@
     const storageKey = 'wishlist';
     let wishList = loadWishList();
 
-    highlightWishItems();
-
     // Main Navigation
     $('.hamburger-menu').on('click', function() {
         $(this).toggleClass('close');
@@ -49,6 +47,10 @@
         }
     }
 
+    function updateWishListCounter() {
+        $('#wishListCount').text(wishList.length);
+    }
+
     $('body').on('click', '.btn_ProceedWishList', function(e) {
         e.preventDefault();
         let $this = $(this);
@@ -59,6 +61,7 @@
             removeFromWishList(itemId);
         }
         highlightWishItem(itemId);
+        updateWishListCounter();
     });
 
     let addToWishList = (itemId) => {
@@ -84,4 +87,8 @@
         }
         return wishList;
     }
+
+    highlightWishItems();
+    updateWishListCounter();
+
 })(jQuery);
