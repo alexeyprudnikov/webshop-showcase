@@ -411,7 +411,7 @@ button.item-action {
     transition: all 0.35s;
 }
 
-button.item-action:hover {
+button.item-action:hover, button.item-action-active {
     border-color: transparent;
     color: #fff;
     background: #f0437e;
