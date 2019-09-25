@@ -60,7 +60,7 @@
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                             {% for id,data in sorting %}
-                                <a class="dropdown-item{% if orderbyId == id %} active{% endif %}" href="?orderby={{ id }}">{{ data['title'] }}</a>
+                                <a class="dropdown-item{% if orderbyId == id %} active{% endif %}" href="?orderby={{ id }}">{{ data.title }}</a>
                             {% endfor %}
                         </div>
                     </div>
@@ -70,7 +70,7 @@
             <div class="row">
                 {% for item in items %}
                     <div class="col-12 col-md-6 col-lg-3">
-                        <div class="portfolio-content">
+                        <div class="portfolio-content Item">
                             <figure>
                                 <img src="{{ asset('images/items/' ~ item.filename) }}" alt="{{ item.title }}">
                             </figure>
@@ -86,8 +86,7 @@
                                     <li>
                                         <div class="pt-4">
                                             <button type="button"
-                                                    class="item-action"
-                                                    data-toggle="modal"
+                                                    class="item-action btn_ProceedDetails"
                                                     data-target="#infoModal"
                                                     data-item-id="{{ item._id }}"
                                                     data-item-title="{{ item.title }}"

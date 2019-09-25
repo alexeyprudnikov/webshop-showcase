@@ -87,17 +87,25 @@ class StoreController extends AbstractController
     /**
      * @Route("/i/{hash}", name="show_item")
      * @param string $hash
+     * @param Request $request
      * @return Response
      * @throws \Exception
      */
     public function showItem(string $hash, Request $request): Response
     {
         $isAjax = $request->isXmlHttpRequest();
+
         $item = $this->finder->findByHash($hash);
 
         $template = $isAjax ? 'item.html.twig' : 'itemfullpage.html.twig';
 
-        return $this->render('store/' . $template, ['item' => $item, 'categories' => self::$categories, 'isAjax' => $isAjax]);
+        $args = [
+            'item' => $item,
+            'categories' => self::$categories,
+            'isAjax' => $isAjax
+        ];
+
+        return $this->render('store/' . $template, $args);
     }
 
     /**

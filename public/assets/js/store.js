@@ -3,6 +3,8 @@
 
     const storageKey = 'wishlist';
     let wishList = loadWishList();
+    let $body = $('body');
+    let $modal = $('#infoModal');
 
     // Main Navigation
     $('.hamburger-menu').on('click', function() {
@@ -19,19 +21,70 @@
         }, 800 );
     });
 
-    $('#infoModal').on('show.bs.modal', function (event) {
-        let button = $(event.relatedTarget);
-        let id = button.data('item-id');
-        let title = button.data('item-title');
-        let url = button.data('item-url');
-        let modal = $(this);
-        modal.find('.modal-title').text(title);
-        modal.find('.modal-body').html('<div class="spinner-box"><div class="spinner-wrapper"><div class="spinner"></div></div></div>');
-        $.get(url, function(html){
-            modal.find('.modal-body').html(html);
-            highlightWishItem(id);
-        });
+    $body.on('click', '.btn_ProceedDetails', function(event) {
+        event.preventDefault();
+        loadModal($(this));
+        $modal.modal('show');
     });
+
+    $modal.on('click', '#prevItem', function(event) {
+        event.preventDefault();
+        let button = $modal.data('prevModalButton');
+        loadModal(button);
+    });
+
+    $modal.on('click', '#nextItem', function(event) {
+        event.preventDefault();
+        let button = $modal.data('nextModalButton');
+        loadModal(button);
+    });
+
+    function loadModal(element) {
+        let id = element.data('item-id');
+        let title = element.data('item-title');
+        let url = element.data('item-url');
+        $modal.find('.modal-title').text(title);
+        $modal.find('.modal-body').html('<div class="spinner-box"><div class="spinner-wrapper"><div class="spinner"></div></div></div>');
+
+        //------ get prev and next dom-items from list -----
+        let $items = $('.Item');
+        let parentWrapper = element.parents('.Item').first();
+        let currentIndex = parentWrapper.index('.Item');
+
+        // get prev link
+        if((currentIndex-1) > -1) {
+            $modal.data('prevModalButton', $($items.get(currentIndex-1)).find('.btn_ProceedDetails'));
+        } else {
+            $modal.removeData('prevModalButton');
+        }
+
+        // get next link
+        if((currentIndex+1) < $items.length) {
+            $modal.data('nextModalButton', $($items.get(currentIndex+1)).find('.btn_ProceedDetails'));
+        } else {
+            $modal.removeData('nextModalButton');
+        }
+        //------
+
+        $.get(url, function(html){
+            $modal.find('.modal-body').html(html);
+            highlightWishItem(id);
+            activatePrevNext();
+        });
+    }
+
+    function activatePrevNext() {
+        if($modal.data('prevModalButton') === undefined) {
+            $modal.find('.modal-body #prevItem').parents('li').addClass('inactive');
+        } else {
+            $modal.find('.modal-body #prevItem').parents('li').removeClass('inactive');
+        }
+        if($modal.data('nextModalButton') === undefined) {
+            $modal.find('.modal-body #nextItem').parents('li').addClass('inactive');
+        } else {
+            $modal.find('.modal-body #nextItem').parents('li').removeClass('inactive');
+        }
+    }
 
     function highlightWishItems() {
         for (let i = 0; i < wishList.length; i++) {
@@ -51,7 +104,7 @@
         $('#wishListCount').text(wishList.length);
     }
 
-    $('body').on('click', '.btn_ProceedWishList', function(e) {
+    $body.on('click', '.btn_ProceedWishList', function(e) {
         e.preventDefault();
         let $this = $(this);
         let itemId = $this.data('item-id');

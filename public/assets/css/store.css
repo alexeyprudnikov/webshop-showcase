@@ -675,6 +675,10 @@ button.item-action:hover, button.item-action-active {
     list-style: none;
 }
 
+.post-nav ul li.inactive {
+    opacity: 0.3;
+}
+
 @media screen and (min-width: 576px) {
     .single-portfolio {
         padding-top: 45px;

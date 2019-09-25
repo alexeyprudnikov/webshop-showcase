@@ -49,9 +49,11 @@
         <div class="col">
             <nav class="post-nav">
                 <ul class="flex justify-content-between align-items-center">
-                    <li><a href="#"><img src="{{ asset('images/angle-left.png') }}" alt="Previous"></a></li>
-                    <li>предыдущий | следующий</li>
-                    <li><a href="#"><img src="{{ asset('images/angle-right.png') }}" alt="Next"></a></li>
+                    <li><a href="#" id="prevItem"><img src="{{ asset('images/angle-left.png') }}" alt="назад"></a></li>
+                    <li>назад</li>
+                    <li>листать</li>
+                    <li>вперед</li>
+                    <li><a href="#" id="nextItem"><img src="{{ asset('images/angle-right.png') }}" alt="вперед"></a></li>
                 </ul>
             </nav><!-- .post-nav -->
         </div><!-- .col -->
