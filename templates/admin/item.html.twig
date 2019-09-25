@@ -9,11 +9,11 @@
 <td>
     <select class="form-control" name="category">
         <option value="">please select</option>
-        <option value="1"{% if (item.category) == 1 %} selected="selected"{% endif %}>Cat 1</option>
-        <option value="2"{% if (item.category) == 2 %} selected="selected"{% endif %}>Cat 2</option>
+        <option value="1"{% if item.category == 1 %} selected="selected"{% endif %}>Cat 1</option>
+        <option value="2"{% if item.category == 2 %} selected="selected"{% endif %}>Cat 2</option>
     </select>
 </td>
-<td><input type="checkbox" class="form-control" name="isnew" value="1"{% if (item.isnew) == 1 %} checked="checked"{% endif %}></td>
+<td><input type="checkbox" class="form-control" name="isnew" value="1"{% if item.isnew == 1 %} checked="checked"{% endif %}></td>
 <td>
     <button type="button" class="btn btn-primary btn_Update" data-route="{{ path('update_item') }}" data-id="{{ item._id }}"><i class="fa fa-save"></i></button>
     <button type="button" class="btn btn-danger btn_Delete" data-route="{{ path('delete_item') }}" data-id="{{ item._id }}"><i class="fa fa-trash"></i></button>

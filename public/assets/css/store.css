@@ -632,6 +632,10 @@ button.item-action:hover, button.item-action-active {
 .single-portfolio .post-share ul li.ok {
     background: #f18204;
 }
+
+.single-portfolio .post-share ul li.tl {
+    background: #32afed;
+}
 /*
 # Post Sidebar
 --------------------------------*/
@@ -1178,12 +1182,24 @@ button.item-action:hover, button.item-action-active {
     right: -9px;
 }
 
+.itemFullPageHeader {
+    padding: 48px 0;
+    margin: 0;
+    color: #191919;
+    font-family: 'Poppins', sans-serif;
+}
+
 .dropdown-menu a {
     color: #a6a6a6;
     text-decoration: none;
     transition: all 0.35s;
 }
 
-.dropdown-menu a.active, .dropdown-menu a:hover {
+.dropdown-item.active {
+    color: #f0437e;
+    background-color: #f8f9fa;
+}
+
+.dropdown-item:focus, .dropdown-item:hover {
     color: #f0437e;
 }

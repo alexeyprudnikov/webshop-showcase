@@ -1,3 +1,4 @@
+{% set itemUrl %}{{ app.request.getSchemeAndHttpHost() }}{{ path('show_item', { 'hash': item.hash }) }}{% endset %}
 <div class="container single-portfolio pt-0 pb-1">
     <div class="row">
         <div class="col-12 col-lg-8">
@@ -18,7 +19,7 @@
                     </div>
                     <div class="post-category">
                         <label>Категория</label>
-                        <span><a href="#">Photography</a></span>
+                        <span><a href="{{ path('show_category', { 'id': item.category }) }}">{{ categories[item.category] }}</a></span>
                     </div>
                 </div><!-- .entry-meta -->
 
@@ -31,11 +32,11 @@
                     <div class="label">Поделиться:</div>
                     <div class="flex align-items-center">
                         <ul class="flex align-items-center">
-                            <li class="fb"><a href="#"><i class="fa fa-facebook"></i></a></li>
-                            <li class="in"><a href="#"><i class="fa fa-instagram"></i></a></li>
-                            <li class="tw"><a href="#"><i class="fa fa-twitter"></i></a></li>
-                            <li class="vk"><a href="#"><i class="fa fa-vk"></i></a></li>
-                            <li class="ok"><a href="#"><i class="fa fa-odnoklassniki"></i></a></li>
+                            <li class="fb"><a href="https://www.facebook.com/sharer.php?u={{ itemUrl }}" target="_blank"><i class="fa fa-facebook"></i></a></li>
+                            <li class="vk"><a href="http://vk.com/share.php?url={{ itemUrl }}&title={{ item.title|url_encode }}" target="_blank"><i class="fa fa-vk"></i></a></li>
+                            <li class="tw"><a href="https://twitter.com/intent/tweet?url={{ itemUrl }}&text={{ item.title|url_encode }}" target="_blank"><i class="fa fa-twitter"></i></a></li>
+                            <li class="ok"><a href="https://connect.ok.ru/dk?st.cmd=WidgetSharePreview&st.shareUrl={{ itemUrl }}" target="_blank"><i class="fa fa-odnoklassniki"></i></a></li>
+                            <li class="tl"><a href="https://telegram.me/share/url?url={{ itemUrl }}&text={{ item.title|url_encode }}"><i class="fa fa-telegram"></i></a></li>
                         </ul>
                     </div>
                 </div><!-- .post-share -->
@@ -43,16 +44,17 @@
             </div><!-- .content-area -->
         </div><!-- .col-12 -->
     </div><!-- .row -->
-
+    {% if isAjax == true %}
     <div class="row">
         <div class="col">
             <nav class="post-nav">
                 <ul class="flex justify-content-between align-items-center">
                     <li><a href="#"><img src="{{ asset('images/angle-left.png') }}" alt="Previous"></a></li>
-                    <li><a href="#"><img src="{{ asset('images/portfolio-icon.png') }}" alt="Back to Portfolio"></a></li>
+                    <li>предыдущий | следующий</li>
                     <li><a href="#"><img src="{{ asset('images/angle-right.png') }}" alt="Next"></a></li>
                 </ul>
             </nav><!-- .post-nav -->
         </div><!-- .col -->
     </div><!-- .row -->
+    {% endif %}
 </div><!-- .container -->

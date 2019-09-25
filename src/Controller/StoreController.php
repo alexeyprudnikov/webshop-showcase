@@ -57,12 +57,13 @@ class StoreController extends AbstractController
      */
     public function start(Request $request): Response
     {
-        $orderby = $this->getOrderBy($request->get('orderby', 1));
+        $obId = $request->get('orderby', 1);
+        $orderby = $this->getOrderBy($obId);
 
         $this->finder->setOrderBy($orderby);
         $items = $this->finder->findAll();
 
-        return $this->render('store/index.html.twig', ['items' => $items, 'categories' => self::$categories, 'sorting' => self::$sorting, 'catId' => 0]);
+        return $this->render('store/index.html.twig', ['items' => $items, 'categories' => self::$categories, 'sorting' => self::$sorting, 'catId' => 0, 'orderbyId' => $obId]);
     }
 
     /**
@@ -74,12 +75,13 @@ class StoreController extends AbstractController
      */
     public function showCategory(int $id, Request $request): Response
     {
-        $orderby = $this->getOrderBy($request->get('orderby', 1));
+        $obId = $request->get('orderby', 1);
+        $orderby = $this->getOrderBy($obId);
 
         $this->finder->setOrderBy($orderby);
         $items = $this->finder->findByCategoryId($id);
 
-        return $this->render('store/index.html.twig', ['items' => $items, 'categories' => self::$categories, 'sorting' => self::$sorting, 'catId' => $id]);
+        return $this->render('store/index.html.twig', ['items' => $items, 'categories' => self::$categories, 'sorting' => self::$sorting, 'catId' => $id, 'orderbyId' => $obId]);
     }
 
     /**
@@ -88,11 +90,14 @@ class StoreController extends AbstractController
      * @return Response
      * @throws \Exception
      */
-    public function showItem(string $hash): Response
+    public function showItem(string $hash, Request $request): Response
     {
+        $isAjax = $request->isXmlHttpRequest();
         $item = $this->finder->findByHash($hash);
 
-        return $this->render('store/item.html.twig', ['item' => $item]);
+        $template = $isAjax ? 'item.html.twig' : 'itemfullpage.html.twig';
+
+        return $this->render('store/' . $template, ['item' => $item, 'categories' => self::$categories, 'isAjax' => $isAjax]);
     }
 
     /**

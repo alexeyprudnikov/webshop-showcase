@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Pierrelang.ru
+{% endblock %}
+
+{% block stylesheets %}
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link href="{{ asset('assets/css/store.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+    {{ include('store/header.html.twig') }}
+
+    {{ include('store/nav.html.twig') }}
+
+    <div class="nav-bar-sep d-lg-none"></div>
+
+    <div class="outer-container">
+        <div class="container">
+            <div class="row">
+                <div class="col-8">
+                    <div class="itemFullPageHeader">
+                        <h3>{{ item.title }}</h3>
+                    </div>
+                </div><!-- .col -->
+                <div class="col-4">
+                    <div class="wishList text-right">
+                        <button type="button" class="item-action item-action-active">
+                            <span class="d-sm-none"><i class="fa fa-star"></i></span>
+                            <span class="d-none d-sm-block"><i class="fa fa-star"></i> избранное</span>
+                        </button>
+                        <div id="wishListCount" class="badge badge-pill badge-warning">0</div>
+                    </div>
+                </div>
+            </div><!-- .row -->
+        </div>
+        {% include 'store/item.html.twig' with {'item': item, 'categories': categories} %}
+    </div><!-- .outer-container -->
+{% endblock %}
+
+{%  block javascripts %}
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="{{ asset('assets/js/store.js') }}"></script>
+{% endblock %}

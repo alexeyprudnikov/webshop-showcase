@@ -22,7 +22,7 @@
             <div class="row">
                 <div class="col-8">
                     <ul class="breadcrumbs flex align-items-center">
-                        {% if (catId) == 0 %}
+                        {% if catId == 0 %}
                             <li>Коллекция</li>
                         {% else %}
                             <li><a href="{{ path('start') }}">Коллекция</a></li>
@@ -48,8 +48,9 @@
                             Категории
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item{% if catId == 0 %} active{% endif %}" href="{{ path('start') }}">Все</a>
                             {% for id,title in categories %}
-                                <a class="dropdown-item" href="{{ path('show_category', { 'id': id }) }}">{{ title }}</a>
+                                <a class="dropdown-item{% if catId == id %} active{% endif %}" href="{{ path('show_category', { 'id': id }) }}">{{ title }}</a>
                             {% endfor %}
                         </div>
                     </div>
@@ -59,7 +60,7 @@
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                             {% for id,data in sorting %}
-                                <a class="dropdown-item" href="?orderby={{ id }}">{{ data['title'] }}</a>
+                                <a class="dropdown-item{% if orderbyId == id %} active{% endif %}" href="?orderby={{ id }}">{{ data['title'] }}</a>
                             {% endfor %}
                         </div>
                     </div>
@@ -79,7 +80,7 @@
 
                                 <ul class="justify-content-center">
                                     <li class="price">&euro;{{ item.price }}</li>
-                                    {% if (item.isnew) == 1 %}
+                                    {% if item.isnew == 1 %}
                                         <li class="new">New</li>
                                     {% endif %}
                                     <li>
