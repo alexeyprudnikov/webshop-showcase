@@ -395,14 +395,14 @@ a:hover, a:active {
     opacity: 1;
 }
 
-button.item-action {
+.item-action {
     display: inline-block;
     padding: 8px 15px;
     border: 1px solid #d2d2d4;
     border-radius: 2px;
-    font-size: 0.75rem;
+    font-size: 12px!important;
     font-weight: 600;
-    line-height: 1;
+    line-height: 12px!important;
     color: #404040;
     text-transform: uppercase;
     text-decoration: none;
@@ -410,7 +410,7 @@ button.item-action {
     transition: all 0.35s;
 }
 
-button.item-action:hover, button.item-action-active {
+.item-action:hover, .item-action-active {
     border-color: transparent;
     color: #fff;
     background: #f0437e;
@@ -657,9 +657,18 @@ button.item-action:hover, button.item-action-active {
     margin-bottom: 26px;
 }
 
-.single-portfolio .posted-tags span,
+.single-portfolio .posted-tags span {
+    color: #f0437e;
+}
+
 .single-portfolio .entry-meta a {
-    color: #bfbfbf;
+    color: #a6a6a6;
+    text-decoration: none;
+    transition: all 0.35s;
+}
+
+.single-portfolio .entry-meta a:hover {
+    color: #f0437e;
 }
 
 /*
@@ -677,6 +686,16 @@ button.item-action:hover, button.item-action-active {
 
 .post-nav ul li.inactive {
     opacity: 0.3;
+}
+
+.post-nav ul li a {
+    color: #a6a6a6;
+    text-decoration: none;
+    transition: all 0.35s;
+}
+
+.post-nav ul li a:hover {
+    color: #f0437e;
 }
 
 @media screen and (min-width: 576px) {
@@ -992,7 +1011,7 @@ button.item-action:hover, button.item-action-active {
     border-radius: 2px;
     font-size: 0.75rem;
     font-weight: 600;
-    line-height: 1;
+    line-height: 1rem;
     color: #404040;
     text-transform: uppercase;
     text-decoration: none;

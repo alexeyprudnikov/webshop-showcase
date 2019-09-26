@@ -85,12 +85,11 @@
                                     {% endif %}
                                     <li>
                                         <div class="pt-4">
-                                            <button type="button"
+                                            <a href="{{ path('show_item', { 'hash': item.hash }) }}"
                                                     class="item-action btn_ProceedDetails"
                                                     data-target="#infoModal"
                                                     data-item-id="{{ item._id }}"
-                                                    data-item-title="{{ item.title }}"
-                                                    data-item-url="{{ path('show_item', { 'hash': item.hash }) }}"><i class="fa fa-search"></i></button>&nbsp;
+                                                    data-item-title="{{ item.title }}"><i class="fa fa-search"></i></a>&nbsp;
                                             <button type="button" class="item-action btn_ProceedWishList" data-item-id="{{ item._id }}"><i class="fa fa-star"></i></button>
                                         </div>
                                     </li>

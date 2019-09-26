@@ -27,13 +27,13 @@
         $modal.modal('show');
     });
 
-    $modal.on('click', '#prevItem', function(event) {
+    $modal.on('click', '.prevItem', function(event) {
         event.preventDefault();
         let button = $modal.data('prevModalButton');
         loadModal(button);
     });
 
-    $modal.on('click', '#nextItem', function(event) {
+    $modal.on('click', '.nextItem', function(event) {
         event.preventDefault();
         let button = $modal.data('nextModalButton');
         loadModal(button);
@@ -42,11 +42,16 @@
     function loadModal(element) {
         let id = element.data('item-id');
         let title = element.data('item-title');
-        let url = element.data('item-url');
+        let url = element.attr('href');
+
+        if(url === undefined) {
+            return;
+        }
+
         $modal.find('.modal-title').text(title);
         $modal.find('.modal-body').html('<div class="spinner-box"><div class="spinner-wrapper"><div class="spinner"></div></div></div>');
 
-        //------ get prev and next dom-items from list -----
+        //------ get prev and next dom-items from main items list, also with category and orderby -----
         let $items = $('.Item');
         let parentWrapper = element.parents('.Item').first();
         let currentIndex = parentWrapper.index('.Item');
@@ -74,15 +79,20 @@
     }
 
     function activatePrevNext() {
+        let $prevItem = $modal.find('.modal-body .prevItem');
         if($modal.data('prevModalButton') === undefined) {
-            $modal.find('.modal-body #prevItem').parents('li').addClass('inactive');
+            $prevItem.parents('li').addClass('inactive');
+            $prevItem.addClass('btn disabled');
         } else {
-            $modal.find('.modal-body #prevItem').parents('li').removeClass('inactive');
+            $prevItem.attr('href', $modal.data('prevModalButton').attr('href'));
         }
+
+        let $nextItem = $modal.find('.modal-body .nextItem');
         if($modal.data('nextModalButton') === undefined) {
-            $modal.find('.modal-body #nextItem').parents('li').addClass('inactive');
+            $nextItem.parents('li').addClass('inactive');
+            $nextItem.addClass('btn disabled');
         } else {
-            $modal.find('.modal-body #nextItem').parents('li').removeClass('inactive');
+            $nextItem.attr('href', $modal.data('nextModalButton').attr('href'));
         }
     }
 
