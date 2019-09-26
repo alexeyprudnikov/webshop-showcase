@@ -322,6 +322,8 @@ a:hover, a:active {
     left: 24px;
     z-index: 999;
     cursor: pointer;
+    color: #a6a6a6;
+    transition: all 0.35s;
 }
 
 .arrow-down {
@@ -334,9 +336,10 @@ a:hover, a:active {
 .scroll-text {
     margin-top: 5px;
     margin-bottom: 15px;
-    font-size: 14px;
-    font-weight: 600;
-    color: #a6a6a6;
+}
+
+.scroll-down:hover {
+    color: #f0437e;
 }
 
 /*--------------------------------------------------------------
