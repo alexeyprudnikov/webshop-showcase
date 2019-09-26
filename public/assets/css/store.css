@@ -317,22 +317,18 @@ a:hover, a:active {
 # Scroll Down
 --------------------------------------------------------------*/
 .scroll-down {
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    z-index: 99;
-    width: 120px;
-    height: 100px;
-    margin-left: -20px;
+    position: fixed;
+    bottom: 24px;
+    left: 24px;
+    z-index: 999;
     cursor: pointer;
 }
 
 .arrow-down {
     width: 32px;
     height: 32px;
-    margin: 0 auto;
     border-radius: 50%;
-    background: #fff;
+    background-color: #ebebeb;
 }
 
 .scroll-text {
@@ -340,14 +336,12 @@ a:hover, a:active {
     margin-bottom: 15px;
     font-size: 14px;
     font-weight: 600;
+    color: #a6a6a6;
 }
 
 /*--------------------------------------------------------------
 # Portfolio
 --------------------------------------------------------------*/
-.portfolio-page .scroll-down {
-    margin-left: -60px;
-}
 
 .portfolio-content {
     position: relative;
