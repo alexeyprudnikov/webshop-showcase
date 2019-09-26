@@ -1,17 +1,17 @@
 <nav class="site-navigation flex flex-column justify-content-between">
     <div class="site-branding d-none d-lg-block ">
-        <h1 class="site-title"><a href="#" rel="home"><img src="{{ asset('images/logo2.png') }}" alt="Logo"></a></h1>
+        <h1 class="site-title"><a href="#" rel="home"><img src="{{ asset('images/logo2.png') }}" alt="Pierrelang.ru" class="img-fluid pl-3 pr-3"></a></h1>
     </div><!-- .site-branding -->
 
     <ul class="main-menu flex flex-column justify-content-center">
         <li class="current-menu-item"><a href="{{ path('start') }}">Коллекция</a></li>
-        <li><a href="#">О марке</a></li>
-        <li><a href="#">Сервис</a></li>
-        <li><a href="#">Контакт</a></li>
+        <li><a href="{{ path('start') }}">Производитель</a></li>
+        <li><a href="{{ path('start') }}">Сервис</a></li>
+        <li><a href="{{ path('start') }}">Контакт</a></li>
     </ul>
 
-    <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-        Copyright &copy;<script>document.write(new Date().getFullYear());</script> Pierrelang.ru | Template by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+    <p class="text-center"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+        Pierrelang.ru &copy; {{ "now"|date("Y") }}<br>Template by <a href="https://colorlib.com" class="generalLink" target="_blank">Colorlib</a>
         <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
     </p>
 
@@ -20,8 +20,8 @@
         <ul class="flex justify-content-start justify-content-lg-center align-items-center">
             <li><a href="#"><i class="fa fa-facebook"></i></a></li>
             <li><a href="#"><i class="fa fa-instagram"></i></a></li>
-            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-            <li><a href="#"><i class="fa fa-pinterest"></i></a></li>
+            <li><a href="#"><i class="fa fa-vk"></i></a></li>
+            <li><a href="#"><i class="fa fa-odnoklassniki"></i></a></li>
         </ul>
     </div><!-- .social-profiles -->
 </nav><!-- .site-navigation -->

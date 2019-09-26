@@ -1194,6 +1194,20 @@ a:hover, a:active {
     color: #bfbfbf;
 }
 
+/*--------------------------------------------------------------
+# Custom
+--------------------------------------------------------------*/
+
+a.generalLink {
+    color: #a6a6a6;
+    text-decoration: none;
+    transition: all 0.35s;
+}
+
+a.generalLink:hover {
+    color: #f0437e;
+}
+
 .wishList {
     padding-top: 48px;
     position: relative;
