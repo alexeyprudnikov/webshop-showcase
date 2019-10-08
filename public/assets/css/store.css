@@ -409,6 +409,14 @@ a:hover, a:active {
 
 .item-action:hover, .item-action-active {
     border-color: transparent;
+    text-decoration: none;
+    color: #fff;
+    background: #f0437e;
+}
+
+.wishList .item-action:visited {
+    border-color: transparent;
+    text-decoration: none;
     color: #fff;
     background: #f0437e;
 }
@@ -1216,7 +1224,7 @@ a.generalLink:hover {
     right: -9px;
 }
 
-.itemFullPageHeader {
+.fullPageHeader {
     padding: 48px 0;
     margin: 0;
     color: #191919;

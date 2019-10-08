@@ -99,6 +99,17 @@ class Finder
     }
 
     /**
+     * @param string $ids
+     * @return array|mixed|null
+     * @throws \Exception
+     */
+    public function findByIds(string $ids)
+    {
+        $idArray = explode(',', $ids);
+        return $this->storage->in('_id', $idArray)->fetch();
+    }
+
+    /**
      * @param string $hash
      * @return array|mixed|null
      * @throws \Exception

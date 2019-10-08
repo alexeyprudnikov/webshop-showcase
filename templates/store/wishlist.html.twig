@@ -20,23 +20,27 @@
     <div class="outer-container">
         <div class="container">
             <div class="row">
-                <div class="col-8">
+                <div class="col-12">
                     <div class="fullPageHeader">
-                        <h3>{{ item.title }}</h3>
+                        <h3>Избранное</h3>
                     </div>
                 </div><!-- .col -->
-                <div class="col-4">
-                    <div class="wishList text-right">
-                        <button type="button" class="item-action item-action-active">
-                            <span class="d-sm-none"><i class="fa fa-star"></i></span>
-                            <span class="d-none d-sm-block"><i class="fa fa-star"></i> избранное</span>
-                        </button>
-                        <div id="wishListCount" class="badge badge-pill badge-warning">0</div>
-                    </div>
-                </div>
+            </div><!-- .row -->
+            <div class="row">
+                <div class="col-12">
+                    <table id="wishList" class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Продукт</th>
+                                <th scope="col">Цена</th>
+                                <th scope="col">Удалить?</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div><!-- .col -->
             </div><!-- .row -->
         </div>
-        {% include 'store/item.html.twig' with {'item': item, 'categories': categories, 'isAjax': isAjax} %}
     </div><!-- .outer-container -->
 {% endblock %}
 

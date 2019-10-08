@@ -63,7 +63,15 @@ class StoreController extends AbstractController
         $this->finder->setOrderBy($orderby);
         $items = $this->finder->findAll();
 
-        return $this->render('store/index.html.twig', ['items' => $items, 'categories' => self::$categories, 'sorting' => self::$sorting, 'catId' => 0, 'orderbyId' => $obId]);
+        $args = [
+            'items' => $items,
+            'categories' => self::$categories,
+            'sorting' => self::$sorting,
+            'catId' => 0,
+            'orderbyId' => $obId
+        ];
+
+        return $this->render('store/index.html.twig', $args);
     }
 
     /**
@@ -81,7 +89,15 @@ class StoreController extends AbstractController
         $this->finder->setOrderBy($orderby);
         $items = $this->finder->findByCategoryId($id);
 
-        return $this->render('store/index.html.twig', ['items' => $items, 'categories' => self::$categories, 'sorting' => self::$sorting, 'catId' => $id, 'orderbyId' => $obId]);
+        $args = [
+            'items' => $items,
+            'categories' => self::$categories,
+            'sorting' => self::$sorting,
+            'catId' => $id,
+            'orderbyId' => $obId
+        ];
+
+        return $this->render('store/index.html.twig', $args);
     }
 
     /**
@@ -115,5 +131,15 @@ class StoreController extends AbstractController
     protected function getOrderBy(int $id): string
     {
        return array_key_exists($id, self::$sorting) ? self::$sorting[$id]['orderby']: 'desc:_id';
+    }
+
+    /**
+     * @Route("/wishlist", name="show_wishlist")
+     * @return Response
+     */
+    public function showWishList(): Response
+    {
+        $args = [];
+        return $this->render('store/wishlist.html.twig', $args);
     }
 }

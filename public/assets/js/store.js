@@ -6,6 +6,8 @@
     let $body = $('body');
     let $modal = $('#infoModal');
 
+    let spinner = '<div class="spinner-box"><div class="spinner-wrapper"><div class="spinner"></div></div></div>';
+
     // Main Navigation
     $('.hamburger-menu').on('click', function() {
         $(this).toggleClass('close');
@@ -39,6 +41,35 @@
         loadModal(button);
     });
 
+    $body.on('click', '.btn_ProceedWishList', function(e) {
+        e.preventDefault();
+        let $this = $(this);
+        let itemId = $this.data('item-id');
+        if($.inArray(itemId, wishList) === -1) {
+            addToWishList(itemId);
+        } else {
+            removeFromWishList(itemId);
+        }
+        highlightWishItem(itemId);
+        updateWishListCounter();
+    });
+
+    let addToWishList = (itemId) => {
+        wishList.push(itemId);
+        localStorage.setItem(storageKey, JSON.stringify(wishList));
+    };
+
+    let removeFromWishList = (itemId) => {
+        for (let i = 0; i < wishList.length; i++) {
+            if (itemId === wishList[i]) {
+                wishList.splice(i,1);
+            }
+        }
+        localStorage.setItem(storageKey, JSON.stringify(wishList));
+    };
+
+    /** functions **/
+
     function loadModal(element) {
         let id = element.data('item-id');
         let title = element.data('item-title');
@@ -49,7 +80,7 @@
         }
 
         $modal.find('.modal-title').text(title);
-        $modal.find('.modal-body').html('<div class="spinner-box"><div class="spinner-wrapper"><div class="spinner"></div></div></div>');
+        $modal.find('.modal-body').html(spinner);
 
         //------ get prev and next dom-items from main items list, also with category and orderby -----
         let $items = $('.Item');
@@ -114,33 +145,6 @@
         $('#wishListCount').text(wishList.length);
     }
 
-    $body.on('click', '.btn_ProceedWishList', function(e) {
-        e.preventDefault();
-        let $this = $(this);
-        let itemId = $this.data('item-id');
-        if($.inArray(itemId, wishList) === -1) {
-            addToWishList(itemId);
-        } else {
-            removeFromWishList(itemId);
-        }
-        highlightWishItem(itemId);
-        updateWishListCounter();
-    });
-
-    let addToWishList = (itemId) => {
-        wishList.push(itemId);
-        localStorage.setItem(storageKey, JSON.stringify(wishList));
-    };
-
-    let removeFromWishList = (itemId) => {
-        for (let i = 0; i < wishList.length; i++) {
-            if (itemId === wishList[i]) {
-                wishList.splice(i,1);
-            }
-        }
-        localStorage.setItem(storageKey, JSON.stringify(wishList));
-    };
-
     function loadWishList() {
         let wishList = localStorage.getItem(storageKey);
         if (!wishList) {
@@ -151,7 +155,26 @@
         return wishList;
     }
 
-    highlightWishItems();
-    updateWishListCounter();
+    function parseWishList() {
+        let $table = $('table#wishList');
+        $.get('/api/get/items', {ids: wishList.join()}, function(items){
+            items = JSON.parse(items);
+            for (let i = 0; i < items.length; i++) {
+                $table.find('tbody').append('<tr><td>' + items[i].title + '</td><td>' + items[i].price + '</td><td>x</td></tr>');
+            }
+        });
+    }
+
+    if($('table#wishList').length > 0) {
+        parseWishList();
+    }
+
+    if($('.btn_ProceedWishList').length > 0) {
+        highlightWishItems();
+    }
+
+    if($('#wishListCount').length > 0) {
+        updateWishListCounter();
+    }
 
 })(jQuery);
