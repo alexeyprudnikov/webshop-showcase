@@ -156,16 +156,14 @@
     }
 
     function parseWishList() {
-        let $table = $('table#wishList');
-        $.get('/api/get/items', {ids: wishList.join()}, function(items){
-            items = JSON.parse(items);
-            for (let i = 0; i < items.length; i++) {
-                $table.find('tbody').append('<tr><td>' + items[i].title + '</td><td>' + items[i].price + '</td><td>x</td></tr>');
-            }
+        let $container = $('#wishList');
+        $container.html(spinner);
+        $.get('/wishlist/items', {ids: wishList.join()}, function(html){
+            $container.html(html);
         });
     }
 
-    if($('table#wishList').length > 0) {
+    if($('#wishList').length > 0) {
         parseWishList();
     }
 

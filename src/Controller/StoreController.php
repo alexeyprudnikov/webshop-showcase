@@ -142,4 +142,20 @@ class StoreController extends AbstractController
         $args = [];
         return $this->render('store/wishlist.html.twig', $args);
     }
+
+    /**
+     * @Route("/wishlist/items", name="api_get_items")
+     * @param Request $request
+     * @return Response
+     * @throws \Exception
+     */
+    public function getWishListItems(Request $request): Response
+    {
+        $ids = $request->get('ids');
+        $items = [];
+        if(!empty($ids)) {
+            $items = $this->finder->findByIds($ids);
+        }
+        return $this->render('store/wishlistitems.html.twig', ['items' => $items]);
+    }
 }

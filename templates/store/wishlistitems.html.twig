@@ -1,0 +1,20 @@
+<table class="table">
+    <thead>
+    <tr>
+        <th></th>
+        <th scope="col">Продукт</th>
+        <th scope="col">Цена</th>
+        <th scope="col">Удалить</th>
+    </tr>
+    </thead>
+    <tbody>
+        {% for item in items %}
+            <tr>
+                <td><img src="{{ asset('images/items/' ~ item.filename) }}" alt="{{ item.title }}" class="img-fluid img-thumbnail" style="width: 100px; height: 100px;"></td>
+                <td>{{ item.title }}<br>Номер: {{ item.number }}</td>
+                <td>&euro;{{ item.price }}</td>
+                <td><button type="button" class="item-action btn_WishListRemove" data-item-id="{{ item._id }}"><i class="fa fa-trash"></i></button></td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
