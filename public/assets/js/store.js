@@ -6,7 +6,8 @@
     let $body = $('body');
     let $modal = $('#infoModal');
 
-    let spinner = '<div class="spinner-box"><div class="spinner-wrapper"><div class="spinner"></div></div></div>';
+    let spinner = '<div class="spinner-wrapper"><div class="spinner"></div></div>';
+    let spinnerFull = '<div class="spinner-box">'+spinner+'</div>';
 
     // Main Navigation
     $('.hamburger-menu').on('click', function() {
@@ -54,6 +55,27 @@
         updateWishListCounter();
     });
 
+    $body.on('click', '.btn_WishListRemove', function(e) {
+        e.preventDefault();
+        let $this = $(this);
+        let itemId = $this.data('item-id');
+        if($.inArray(itemId, wishList) > -1) {
+            removeFromWishList(itemId);
+            let parent = 'tr';
+            if(wishList.length === 0) {
+                parent = 'table';
+            }
+            $this.parents(parent).fadeOut(400, function () {
+                if(wishList.length === 0) {
+                    $('#wishList').html('Нет продуктов в избранном.<br>\n' +
+                        '<a href="/">Вернуться к коллекции</a>.');
+                } else {
+                    $(this).remove();
+                }
+            });
+        }
+    });
+
     let addToWishList = (itemId) => {
         wishList.push(itemId);
         localStorage.setItem(storageKey, JSON.stringify(wishList));
@@ -80,7 +102,7 @@
         }
 
         $modal.find('.modal-title').text(title);
-        $modal.find('.modal-body').html(spinner);
+        $modal.find('.modal-body').html(spinnerFull);
 
         //------ get prev and next dom-items from main items list, also with category and orderby -----
         let $items = $('.Item');

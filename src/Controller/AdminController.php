@@ -19,10 +19,12 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Symfony\Component\Routing\RouterInterface;
 
 class AdminController extends AbstractController
 {
+    /** @var SessionInterface $session */
+    private $session;
+
     protected $finder;
 
     protected $manager;
@@ -35,10 +37,12 @@ class AdminController extends AbstractController
 
     /**
      * AdminController constructor.
+     * @param SessionInterface $session
      */
-    public function __construct()
+    public function __construct(SessionInterface $session)
     {
         try {
+            $this->session = $session;
             $storage = SleekDB::store('items', $this->dataDir);
             $this->finder = new Finder($storage);
             $this->manager = new Manager($storage);
@@ -54,13 +58,13 @@ class AdminController extends AbstractController
      */
     public function login(Request $request): Response
     {
-        if ($this->get('session')->get('authenticated') === true) {
+        if ($this->session->get('authenticated') === true) {
             return $this->redirectToRoute('list');
         }
         $error = '';
         $secret = $request->get('secret');
         if (md5($secret) === md5($this->secretKey)) {
-            $this->get('session')->set('authenticated', true);
+            $this->session->set('authenticated', true);
             return $this->redirectToRoute('list');
         }
         if ($secret !== null) {
@@ -79,7 +83,7 @@ class AdminController extends AbstractController
      */
     public function logout(): RedirectResponse
     {
-        $this->get('session')->remove('authenticated');
+        $this->session->remove('authenticated');
         return $this->redirectToRoute('login');
     }
 
@@ -90,7 +94,7 @@ class AdminController extends AbstractController
      */
     public function list(): Response
     {
-        if ($this->get('session')->get('authenticated') !== true) {
+        if ($this->session->get('authenticated') !== true) {
             return $this->redirectToRoute('login');
         }
 

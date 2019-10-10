@@ -1,3 +1,7 @@
+{% if items|length == 0 %}
+    Нет продуктов в избранном.<br>
+    <a href="{{ path('start') }}">Вернуться к коллекции</a>.
+{% else %}
 <table class="table">
     <thead>
     <tr>
@@ -8,7 +12,9 @@
     </tr>
     </thead>
     <tbody>
+        {% set total = 0 %}
         {% for item in items %}
+            {% set total = total + item.price %}
             <tr>
                 <td><img src="{{ asset('images/items/' ~ item.filename) }}" alt="{{ item.title }}" class="img-fluid img-thumbnail" style="width: 100px; height: 100px;"></td>
                 <td>{{ item.title }}<br>Номер: {{ item.number }}</td>
@@ -16,5 +22,12 @@
                 <td><button type="button" class="item-action btn_WishListRemove" data-item-id="{{ item._id }}"><i class="fa fa-trash"></i></button></td>
             </tr>
         {% endfor %}
+        <tr>
+            <td></td>
+            <th>Общая стоимость</th>
+            <th>&euro;{{ total }}</th>
+            <td></td>
+        </tr>
     </tbody>
 </table>
+{% endif %}
