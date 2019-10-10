@@ -27,7 +27,7 @@
                 </div><!-- .col -->
                 <div class="col-4">
                     <div class="wishList text-right">
-                        <button type="button" class="btn_WishListSend item-action item-action-active">
+                        <button type="button" class="btn_WishListSend item-action item-action-active" data-toggle="modal" data-target="#formModal">
                             <span class="d-sm-none"><i class="fa fa-star"></i></span>
                             <span class="d-none d-sm-block"><i class="fa fa-envelope"></i> отправить запрос</span>
                         </button>
@@ -36,11 +36,42 @@
             </div><!-- .row -->
             <div class="row">
                 <div class="col-12">
+                    {% if message != '' %}
+                        <div class="alert alert-success" role="alert">
+                            {{ message }}
+                        </div>
+                    {% endif %}
                     <div id="wishList"></div>
                 </div><!-- .col -->
             </div><!-- .row -->
         </div>
     </div><!-- .outer-container -->
+
+    <div class="modal fade" id="formModal" tabindex="-1" role="dialog" aria-labelledby="formModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="formModalLabel">Отправить запрос</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form name="sendForm" action="{{ path('send_request') }}" method="post">
+                    <div class="modal-body">
+                        Ваше имя: <input type="text" name="name" value="" class="form-control" required><br>
+                        Ваше Е-Мейл: <input type="text" name="email" value="" class="form-control" required><br>
+                        Комментарий: <textarea type="text" name="comment" class="form-control"></textarea><br>
+                        <input type="checkbox" name="iscopy" value="1" checked="checked"> Отправить копию "Избранного" Вам на Е-Мейл<br>
+                        <input type="checkbox" name="isclear" value="1" checked="checked"> Очистить "Избранное" после отправки
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                        <button type="submit" class="btn btn-primary">Отправить</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
 {%  block javascripts %}

@@ -139,8 +139,7 @@ class StoreController extends AbstractController
      */
     public function showWishList(): Response
     {
-        $args = [];
-        return $this->render('store/wishlist.html.twig', $args);
+        return $this->render('store/wishlist.html.twig', ['message' => 'Запрос отправлен']);
     }
 
     /**
@@ -157,5 +156,22 @@ class StoreController extends AbstractController
             $items = $this->finder->findByIds($ids);
         }
         return $this->render('store/wishlistitems.html.twig', ['items' => $items]);
+    }
+
+    /**
+     * @Route("/send", name="send_request", methods={"POST"})
+     * @param Request $request
+     * @return Response
+     */
+    public function send(Request $request): Response
+    {
+        $name = $request->get('name');
+        $email = $request->get('email');
+        $isCopy = (bool)$request->get('iscopy');
+        $isClear = (bool)$request->get('isclear');
+
+        // send mail
+
+        return $this->redirectToRoute('show_wishlist');
     }
 }
