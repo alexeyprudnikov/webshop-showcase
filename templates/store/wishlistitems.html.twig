@@ -16,8 +16,8 @@
         {% for item in items %}
             {% set total = total + item.price %}
             <tr>
-                <td><img src="{{ asset('images/items/' ~ item.filename) }}" alt="{{ item.title }}" class="img-fluid img-thumbnail" style="width: 100px; height: 100px;"></td>
-                <td>{{ item.title }}<br>Номер: {{ item.number }}</td>
+                <td><a href="{{ path('show_item', { 'hash': item.hash }) }}"><img src="{{ asset('images/items/' ~ item.filename) }}" alt="{{ item.title }}" class="img-fluid img-thumbnail" style="width: 100px; height: 100px;"></a></td>
+                <td><a href="{{ path('show_item', { 'hash': item.hash }) }}">{{ item.title }}</a><br>Номер: {{ item.number }}</td>
                 <td>&euro;{{ item.price }}</td>
                 <td><button type="button" class="item-action btn_WishListRemove" data-item-id="{{ item._id }}"><i class="fa fa-trash"></i></button></td>
             </tr>
