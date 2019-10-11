@@ -23,7 +23,8 @@ class StoreController extends AbstractController
 
     protected $dataDir = __DIR__.'/../../var/db';
 
-    public const ORDER_MAIL = 'order@pierrelang.ru';
+    #public const ORDER_MAIL = 'order@pierrelang.ru';
+    public const ORDER_MAIL = 'alexey.prudnikov@yahoo.de';
 
     public static $categories = [
         1 => 'Кольца',
@@ -194,10 +195,22 @@ class StoreController extends AbstractController
             $body = $this->render('store/wishlistitems.html.twig', ['items' => $items]);
 
             // send mail
+            $header = array(
+                'From' => $email,
+                'Reply-To' => $email,
+                'X-Mailer' => 'PHP/' . phpversion()
+            );
+            mail(self::ORDER_MAIL, $subject, $body, $header);
 
             // send copy
             if($request->get('iscopy') === '1') {
                 $subject .= ' (Копия)';
+                $header = array(
+                    'From' => self::ORDER_MAIL,
+                    'Reply-To' => self::ORDER_MAIL,
+                    'X-Mailer' => 'PHP/' . phpversion()
+                );
+                mail($email, $subject, $body, $header);
             }
 
             // redirect
