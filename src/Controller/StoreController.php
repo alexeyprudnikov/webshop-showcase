@@ -23,6 +23,8 @@ class StoreController extends AbstractController
 
     protected $dataDir = __DIR__.'/../../var/db';
 
+    public const ORDER_MAIL = 'order@pierrelang.ru';
+
     public static $categories = [
         1 => 'Кольца',
         2 => 'Браслеты',
@@ -142,7 +144,10 @@ class StoreController extends AbstractController
     {
         $message = '';
         if($request->get('a') === 'send') {
-            $message = 'Запрос отправлен';
+            $message = 'Ваш запрос отправлен';
+        }
+        if($request->get('a') === 'error') {
+            $message = 'Ошибка';
         }
         $args = [
             'message' => $message,
@@ -176,26 +181,31 @@ class StoreController extends AbstractController
     public function send(Request $request): Response
     {
         $ids = $request->get('ids');
-        $name = $request->get('name');
-        $email = $request->get('email');
-        $isCopy = $request->get('iscopy') === '1' ? 1 : 0;
 
-        $items = [];
-        if(!empty($ids)) {
+        if(empty($ids)) {
+            $args = ['a' => 'error'];
+        } else {
             $items = $this->finder->findByIds($ids);
-        }
 
-        // send mail
+            $name = $request->get('name');
+            $email = $request->get('email');
 
-        // send copy
+            $subject = 'Запрос от: ' . $name;
+            $body = $this->render('store/wishlistitems.html.twig', ['items' => $items]);
 
-        // redirect
-        $args = [
-            'a' => 'send'
-        ];
+            // send mail
 
-        if($request->get('isclear') === '1') {
-            $args['clear'] = 1;
+            // send copy
+            if($request->get('iscopy') === '1') {
+                $subject .= ' (Копия)';
+            }
+
+            // redirect
+            $args = ['a' => 'send'];
+
+            if($request->get('isclear') === '1') {
+                $args['clear'] = 1;
+            }
         }
 
         return $this->redirectToRoute('show_wishlist', $args);
