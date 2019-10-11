@@ -135,11 +135,20 @@ class StoreController extends AbstractController
 
     /**
      * @Route("/wishlist", name="show_wishlist")
+     * @param Request $request
      * @return Response
      */
-    public function showWishList(): Response
+    public function showWishList(Request $request): Response
     {
-        return $this->render('store/wishlist.html.twig', ['message' => 'Запрос отправлен']);
+        $message = '';
+        if($request->get('a') === 'send') {
+            $message = 'Запрос отправлен';
+        }
+        $args = [
+            'message' => $message,
+            'clear' => $request->get('clear') === '1' ? 1 : 0
+        ];
+        return $this->render('store/wishlist.html.twig', $args);
     }
 
     /**
@@ -159,19 +168,36 @@ class StoreController extends AbstractController
     }
 
     /**
-     * @Route("/send", name="send_request", methods={"POST"})
+     * @Route("/send", name="send_request")
      * @param Request $request
      * @return Response
+     * @throws \Exception
      */
     public function send(Request $request): Response
     {
+        $ids = $request->get('ids');
         $name = $request->get('name');
         $email = $request->get('email');
-        $isCopy = (bool)$request->get('iscopy');
-        $isClear = (bool)$request->get('isclear');
+        $isCopy = $request->get('iscopy') === '1' ? 1 : 0;
+
+        $items = [];
+        if(!empty($ids)) {
+            $items = $this->finder->findByIds($ids);
+        }
 
         // send mail
 
-        return $this->redirectToRoute('show_wishlist');
+        // send copy
+
+        // redirect
+        $args = [
+            'a' => 'send'
+        ];
+
+        if($request->get('isclear') === '1') {
+            $args['clear'] = 1;
+        }
+
+        return $this->redirectToRoute('show_wishlist', $args);
     }
 }

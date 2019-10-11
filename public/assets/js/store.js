@@ -2,7 +2,7 @@
     'use strict';
 
     const storageKey = 'wishlist';
-    let wishList = loadWishList();
+    let wishList = [];
     let $body = $('body');
     let $modal = $('#infoModal');
 
@@ -73,6 +73,7 @@
                     $(this).remove();
                 }
             });
+            toggleSendButton();
         }
     });
 
@@ -87,6 +88,15 @@
                 wishList.splice(i,1);
             }
         }
+        localStorage.setItem(storageKey, JSON.stringify(wishList));
+    };
+
+    let loadWishList = () => {
+        wishList = JSON.parse(localStorage.getItem(storageKey));
+    };
+
+    let clearWishList = () => {
+        wishList = [];
         localStorage.setItem(storageKey, JSON.stringify(wishList));
     };
 
@@ -167,23 +177,32 @@
         $('#wishListCount').text(wishList.length);
     }
 
-    function loadWishList() {
-        let wishList = localStorage.getItem(storageKey);
-        if (!wishList) {
-            localStorage.setItem(storageKey, JSON.stringify([]));
-        } else {
-            wishList = JSON.parse(wishList);
-        }
-        return wishList;
-    }
-
     function parseWishList() {
         let $container = $('#wishList');
+        let clear = $('input[name="clear"]', $container).val();
+        if(clear === '1') {
+            clearWishList();
+        }
+        $('.btn_WishListSend').hide();
         $container.html(spinner);
-        $.get('/wishlist/items', {ids: wishList.join()}, function(html){
+        let ids = wishList.join();
+        $.get('/wishlist/items', {ids: ids}, function(html){
             $container.html(html);
+            $('input[name="ids"]').val(ids);
+            toggleSendButton();
         });
     }
+
+    function toggleSendButton() {
+        if(wishList.length === 0) {
+            $('.btn_WishListSend').hide();
+        } else {
+            $('.btn_WishListSend').show();
+        }
+    }
+
+    /* load wish list */
+    loadWishList();
 
     if($('#wishList').length > 0) {
         parseWishList();

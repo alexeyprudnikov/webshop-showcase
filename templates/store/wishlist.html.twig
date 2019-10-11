@@ -41,7 +41,9 @@
                             {{ message }}
                         </div>
                     {% endif %}
-                    <div id="wishList"></div>
+                    <div id="wishList">
+                        <input type="hidden" name="clear" value="{{ clear }}">
+                    </div>
                 </div><!-- .col -->
             </div><!-- .row -->
         </div>
@@ -58,11 +60,12 @@
                 </div>
                 <form name="sendForm" action="{{ path('send_request') }}" method="post">
                     <div class="modal-body">
+                        <input type="hidden" name="ids" value="">
                         Ваше имя: <input type="text" name="name" value="" class="form-control" required><br>
                         Ваше Е-Мейл: <input type="text" name="email" value="" class="form-control" required><br>
                         Комментарий: <textarea type="text" name="comment" class="form-control"></textarea><br>
                         <input type="checkbox" name="iscopy" value="1" checked="checked"> Отправить копию "Избранного" Вам на Е-Мейл<br>
-                        <input type="checkbox" name="isclear" value="1" checked="checked"> Очистить "Избранное" после отправки
+                        <input type="checkbox" name="isclear" value="1"> Очистить "Избранное" после отправки
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
