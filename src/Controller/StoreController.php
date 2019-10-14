@@ -199,7 +199,6 @@ class StoreController extends AbstractController
                 'items' => $items
             ];
             $body = $this->render('email/wishlist.html.twig', $args);
-            return $body;
 
             // send mail
             $header = array(
