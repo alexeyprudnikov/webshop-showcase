@@ -1,0 +1,24 @@
+Запрос от: {{ name }} ({{ email }})<br><br>
+<table cellpadding="0" cellspacing="10">
+    <thead>
+    <tr>
+        <th colspan="2" scope="col" align="left">Продукт</th>
+        <th scope="col" align="right">Цена</th>
+    </tr>
+    </thead>
+    <tbody>
+        {% set total = 0 %}
+        {% for item in items %}
+            {% set total = total + item.price %}
+            <tr>
+                <td align="left"><a href="{{ app.request.getSchemeAndHttpHost() }}{{ path('show_item', { 'hash': item.hash }) }}"><img src="{{ app.request.getSchemeAndHttpHost() }}{{ asset('images/items/' ~ item.filename) }}" alt="{{ item.title }}" style="width: 100px; height: 100px;"></a></td>
+                <td align="left"><a href="{{ app.request.getSchemeAndHttpHost() }}{{ path('show_item', { 'hash': item.hash }) }}">{{ item.title }}</a><br>Номер: {{ item.number }}</td>
+                <td align="right">&euro;{{ item.price }}</td>
+            </tr>
+        {% endfor %}
+        <tr>
+            <th colspan="2" align="right">Общая стоимость</th>
+            <th align="right">&euro;{{ total }}</th>
+        </tr>
+    </tbody>
+</table>
